@@ -1,3 +1,4 @@
+import math
 class SM3:
     def __init__(self):
         self.IV = [0x7380166f,0x4914b2b9,0x172442d7,0xda8a0600,0xa96f30bc,0x163138aa,0xe38dee4d,0xb0fb0e4e]
@@ -25,7 +26,7 @@ class SM3:
     def padding(self,plain):
         plainlen = len(plain)*8
         plain.append(0x80)
-        paddinglen = (448 - (plainlen+1) % 512)//8
+        paddinglen = (512*math.ceil((plainlen-440)/512)-plainlen+440)//8
         plain.extend([0x00]*paddinglen)
         paddinglen = 16-(len(hex(plainlen))-2)
         padding_str = "0"*paddinglen+hex(plainlen)[2:]
